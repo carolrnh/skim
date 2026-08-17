@@ -1,13 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-
-type Flag = {
-  title: string;
-  why: string;
-  quote: string;
-  severity: "high" | "medium" | "low";
-};
+import FlagReport, { type Flag } from "./FlagReport";
 
 const DRAFT_KEY = "skim-draft";
 
@@ -95,6 +89,10 @@ export default function CheckForm() {
     }
   }
 
+  if (flags && flags.length > 0) {
+    return <FlagReport flags={flags} onAgain={() => setFlags(null)} />;
+  }
+
   return (
     <div>
       <form onSubmit={onSubmit} className="space-y-4">
@@ -129,30 +127,6 @@ export default function CheckForm() {
         <p className="mt-4 text-sm font-semibold text-[#b42318]">{error}</p>
       ) : null}
 
-      {flags && flags.length > 0 ? (
-        <ol className="mt-8 space-y-4">
-          {flags.map((f, i) => (
-            <li
-              key={`${f.title}-${i}`}
-              className="rounded-xl border border-[#eadfd0] bg-white p-5"
-            >
-              <div className="mb-2 flex items-center gap-2">
-                <span className="text-xs font-bold uppercase tracking-wide text-[#b42318]">
-                  {f.severity}
-                </span>
-                <span className="text-xs text-[#6b6258]">#{i + 1}</span>
-              </div>
-              <h3 className="text-lg font-bold">{f.title}</h3>
-              <p className="mt-2 text-sm leading-relaxed text-[#3d342c]">{f.why}</p>
-              {f.quote ? (
-                <blockquote className="mt-3 border-l-2 border-[#b42318] pl-3 text-sm italic text-[#6b6258]">
-                  “{f.quote}”
-                </blockquote>
-              ) : null}
-            </li>
-          ))}
-        </ol>
-      ) : null}
     </div>
   );
 }
