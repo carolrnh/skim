@@ -49,9 +49,20 @@ export async function consumePaidSession(
 }
 
 export function publicOrigin(req: { headers: Headers }): string {
-  const fromEnv = (process.env.NEXT_PUBLIC_SITE_URL || "").replace(/\/$/, "");
-  if (fromEnv) return fromEnv;
-  const host = req.headers.get("x-forwarded-host") || req.headers.get("host") || "localhost:3000";
-  const proto = req.headers.get("x-forwarded-proto") || (host.includes("localhost") ? "http" : "https");
-  return `${proto}://${host}`;
+  const host =
+    req.headers.get("x-forwarded-host") ||
+    req.headers.get("host") ||
+    "";
+  if (host) {
+    const proto =
+      req.headers.get("x-forwarded-proto") ||
+      (host.includes("localhost") ? "http" : "https");
+    return `${proto}://${host.split(",")[0].trim()}`;
+  }
+  const fromEnv = (process.env.NEXT_PUBLIC_SITE_URL || "")
+    .trim()
+    .replace(/^["']|["']$/g, "")
+    .replace(/\/$/, "");
+  if (/^https?:\/\/[a-z0-9.-]+/i.test(fromEnv)) return fromEnv;
+  return "https://skim-nine.vercel.app";
 }

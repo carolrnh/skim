@@ -5,6 +5,10 @@ export async function POST(req: NextRequest) {
   try {
     const stripe = getStripe();
     const origin = publicOrigin(req);
+    if (!/^https?:\/\/[a-z0-9.-]+(?::\d+)?$/i.test(origin)) {
+      console.error("[skim checkout] bad origin", origin);
+      return NextResponse.json({ error: "Site URL is invalid. Check NEXT_PUBLIC_SITE_URL." }, { status: 500 });
+    }
     const session = await stripe.checkout.sessions.create({
       mode: "payment",
       submit_type: "pay",
