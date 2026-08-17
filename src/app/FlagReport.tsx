@@ -47,18 +47,16 @@ export default function FlagReport({
       id="skim-report"
       className="rounded-2xl border-2 border-[#1a1410] bg-[#f4efe6] p-6 text-[#1a1410] sm:p-8"
     >
-      <div className="flex items-start justify-between gap-4">
-        <p className="select-none text-5xl font-black leading-none tracking-[-0.08em] text-[#b42318] sm:text-6xl">
-          SKIM
-        </p>
-        <button
-          type="button"
-          onClick={() => void copyAll()}
-          className="shrink-0 rounded-full border border-[#1a1410] bg-white px-4 py-2 text-xs font-bold"
-        >
-          {copied ? "Copied" : "Copy all"}
-        </button>
-      </div>
+      <p className="select-none text-5xl font-black leading-none tracking-[-0.08em] text-[#b42318] sm:text-6xl">
+        SKIM
+      </p>
+      <button
+        type="button"
+        onClick={() => void copyAll()}
+        className="mt-5 w-full rounded-full bg-[#b42318] px-6 py-3 text-base font-black text-white"
+      >
+        {copied ? "Copied" : "Copy all 5 flags"}
+      </button>
 
       <p className="mt-4 text-sm font-bold uppercase tracking-wide text-[#b42318]">
         {flags.length} red flags

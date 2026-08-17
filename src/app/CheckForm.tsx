@@ -52,6 +52,9 @@ export default function CheckForm() {
         return;
       }
       setFlags(data.flags || []);
+      window.setTimeout(() => {
+        document.getElementById("skim-report")?.scrollIntoView({ behavior: "smooth", block: "start" });
+      }, 50);
     } catch {
       setError("Network error. Try again.");
     } finally {
@@ -89,10 +92,6 @@ export default function CheckForm() {
     }
   }
 
-  if (flags && flags.length > 0) {
-    return <FlagReport flags={flags} onAgain={() => setFlags(null)} />;
-  }
-
   return (
     <div>
       <form onSubmit={onSubmit} className="space-y-4">
@@ -127,6 +126,11 @@ export default function CheckForm() {
         <p className="mt-4 text-sm font-semibold text-[#b42318]">{error}</p>
       ) : null}
 
+      {flags && flags.length > 0 ? (
+        <div className="mt-10">
+          <FlagReport flags={flags} onAgain={() => setFlags(null)} />
+        </div>
+      ) : null}
     </div>
   );
 }
