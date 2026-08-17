@@ -28,7 +28,7 @@ export default function FlagReport({
   onAgain,
 }: {
   flags: Flag[];
-  onAgain: () => void;
+  onAgain?: () => void;
 }) {
   const [copied, setCopied] = useState(false);
 
@@ -86,13 +86,15 @@ export default function FlagReport({
         Not legal advice. skim.forgeprod.com
       </p>
 
-      <button
-        type="button"
-        onClick={onAgain}
-        className="mt-4 text-sm font-bold text-[#b42318] underline"
-      >
-        Skim another document
-      </button>
+      {onAgain ? (
+        <button
+          type="button"
+          onClick={onAgain}
+          className="mt-4 text-sm font-bold text-[#b42318] underline"
+        >
+          Skim another document
+        </button>
+      ) : null}
     </section>
   );
 }
