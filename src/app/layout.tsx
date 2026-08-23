@@ -15,11 +15,27 @@ const geistMono = Geist_Mono({
   subsets: ["latin"],
 });
 
+const TITLE = "Skim — flags, a rewrite, and a reply";
+const DESCRIPTION =
+  "Chat will discuss your contract if you keep prompting. Skim is the finished report: five red flags, a rewrite of each, and a reply to paste back. $9. No account. Not legal advice.";
+
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
-  title: "Skim — flags, a rewrite, and a reply",
-  description:
-    "Chat will discuss your contract if you keep prompting. Skim is the finished report: five red flags, a rewrite of each, and a reply to paste back. $9. No account. Not legal advice.",
+  title: TITLE,
+  description: DESCRIPTION,
+  openGraph: {
+    title: TITLE,
+    description: DESCRIPTION,
+    url: SITE_URL,
+    siteName: "Skim",
+    type: "website",
+    locale: "en_US",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: TITLE,
+    description: DESCRIPTION,
+  },
 };
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
