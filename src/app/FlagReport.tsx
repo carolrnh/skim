@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { SITE_HOST } from "../lib/site";
+import SkimWordmark from "./SkimWordmark";
 
 export type Flag = {
   title: string;
@@ -67,9 +68,7 @@ export default function FlagReport({
       id="skim-report"
       className="rounded-2xl border-2 border-[#1a1410] bg-[#f4efe6] p-6 text-[#1a1410] sm:p-8"
     >
-      <p className="select-none text-5xl font-black leading-none tracking-[-0.08em] text-[#b42318] sm:text-6xl">
-        SKIM
-      </p>
+      <SkimWordmark className="h-12 w-auto sm:h-14" />
       <button
         type="button"
         onClick={() => void copyAll()}

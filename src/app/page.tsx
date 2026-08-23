@@ -1,16 +1,12 @@
 import Link from "next/link";
 import { SKIM_PRICE_USD, SKIMS_PER_PAYMENT } from "../lib/site";
 import CheckForm from "./CheckForm";
+import SkimWordmark from "./SkimWordmark";
 
 export default function Home() {
   return (
     <main className="mx-auto flex w-full max-w-2xl flex-1 flex-col px-5 py-14">
-      <p
-        className="select-none text-7xl font-black leading-none tracking-[-0.08em] text-[#b42318] sm:text-8xl"
-        aria-label="Skim"
-      >
-        SKIM
-      </p>
+      <SkimWordmark className="h-20 sm:h-24" priority />
       <h1 className="mt-8 text-4xl font-black leading-tight tracking-tight">
         Five red flags.
         <br />
