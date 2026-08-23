@@ -9,10 +9,10 @@ export default function SkimWordmark({
 }) {
   return (
     <Image
-      src="/brand/skim-wordmark.jpg"
+      src="/brand/skim-wordmark.png"
       alt="Skim"
-      width={923}
-      height={610}
+      width={720}
+      height={467}
       priority={priority}
       className={["w-auto max-w-full self-start", className].filter(Boolean).join(" ")}
     />
