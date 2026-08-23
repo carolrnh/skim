@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { SITE_HOST } from "../lib/site";
 
 export type Flag = {
   title: string;
@@ -14,7 +15,7 @@ function reportToText(flags: Flag[], reply: string) {
   const lines = [
     "SKIM — 5 red flags",
     "Not legal advice.",
-    "skim.forgeprod.com",
+    SITE_HOST,
     "",
     ...flags.map((f, i) => {
       const q = f.quote ? `\n   “${f.quote}”` : "";
@@ -130,7 +131,7 @@ export default function FlagReport({
       ) : null}
 
       <p className="mt-8 text-xs font-semibold text-[#6b6258]">
-        Not legal advice. skim.forgeprod.com
+        Not legal advice. {SITE_HOST}
       </p>
 
       {onAgain ? (

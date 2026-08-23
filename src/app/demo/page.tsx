@@ -1,3 +1,4 @@
+import { SITE_HOST } from "../../lib/site";
 import FlagReport, { type Flag } from "../FlagReport";
 
 const DEMO_FLAGS: Flag[] = [
@@ -58,7 +59,7 @@ export default function DemoPage() {
       <p className="mb-6 text-sm font-bold text-[#6b6258]">
         Sample report — no charge. Real skims are $9 at{" "}
         <a href="/" className="text-[#b42318] underline">
-          skim.forgeprod.com
+          {SITE_HOST}
         </a>
       </p>
       <FlagReport flags={DEMO_FLAGS} reply={DEMO_REPLY} />

@@ -27,7 +27,7 @@ export default function Home() {
         </Link>
       </p>
 
-      <div className="mt-10">
+      <div id="check" className="mt-10">
         <CheckForm />
       </div>
     </main>
