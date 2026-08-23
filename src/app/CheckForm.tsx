@@ -5,6 +5,8 @@ import { SKIM_PRICE_USD, SKIMS_PER_PAYMENT } from "../lib/site";
 import FlagReport, { type Flag } from "./FlagReport";
 
 const DRAFT_KEY = "skim-draft";
+const SESSION_KEY = "skim-session";
+const AUTO_KEY = "skim-auto";
 
 export default function CheckForm() {
   const [text, setText] = useState("");
@@ -14,14 +16,24 @@ export default function CheckForm() {
   const [loading, setLoading] = useState(false);
   const [sessionId, setSessionId] = useState("");
   const [paid, setPaid] = useState(false);
+  const [remaining, setRemaining] = useState(0);
   const [reading, setReading] = useState(false);
   const [fileName, setFileName] = useState("");
 
   useEffect(() => {
     const params = new URLSearchParams(window.location.search);
-    const sid = params.get("session_id") || "";
+    const fromUrl = params.get("session_id") || "";
+    const canceled = params.get("canceled") === "1";
+    const stored = sessionStorage.getItem(SESSION_KEY) || "";
+    const sid = fromUrl.startsWith("cs_") ? fromUrl : stored;
     const saved = sessionStorage.getItem(DRAFT_KEY) || "";
     if (saved) setText(saved);
+    if (canceled) {
+      setError("Checkout canceled. Your draft is still here.");
+    }
+    if (fromUrl || canceled) {
+      window.history.replaceState({}, "", "/#check");
+    }
     if (!sid.startsWith("cs_")) return;
 
     setSessionId(sid);
@@ -30,11 +42,23 @@ export default function CheckForm() {
       .then((r) => r.json())
       .then((d) => {
         if (!d.paid) {
-          setError(`Payment not found. Pay $${SKIM_PRICE_USD} to skim.`);
+          sessionStorage.removeItem(SESSION_KEY);
+          if (!canceled) {
+            setError(`Payment not found. Pay $${SKIM_PRICE_USD} to skim.`);
+          }
           return;
         }
+        sessionStorage.setItem(SESSION_KEY, sid);
         setPaid(true);
-        if (saved.trim().length >= 40) return runCheck(saved, sid);
+        const left =
+          typeof d.remaining === "number" ? d.remaining : SKIMS_PER_PAYMENT;
+        setRemaining(left);
+        const already =
+          sessionStorage.getItem(AUTO_KEY) === sid ||
+          !fromUrl.startsWith("cs_");
+        if (already || saved.trim().length < 40 || left <= 0) return;
+        sessionStorage.setItem(AUTO_KEY, sid);
+        return runCheck(saved, sid);
       })
       .catch(() => setError("Could not verify payment."))
       .finally(() => setLoading(false));
@@ -58,6 +82,7 @@ export default function CheckForm() {
       }
       setFlags(data.flags || []);
       setReply(typeof data.reply === "string" ? data.reply : "");
+      if (typeof data.remaining === "number") setRemaining(data.remaining);
       window.setTimeout(() => {
         document.getElementById("skim-report")?.scrollIntoView({ behavior: "smooth", block: "start" });
       }, 50);
@@ -108,7 +133,7 @@ export default function CheckForm() {
     }
     sessionStorage.setItem(DRAFT_KEY, text);
 
-    if (paid && sessionId) {
+    if (paid && sessionId && remaining > 0) {
       await runCheck(text, sessionId);
       return;
     }
@@ -161,17 +186,19 @@ export default function CheckForm() {
           className="rounded-full bg-[#b42318] px-6 py-3 text-sm font-bold text-white disabled:opacity-60"
         >
           {loading
-            ? paid
+            ? paid && remaining > 0
               ? "Skimming…"
               : "Sending you to Stripe…"
-            : paid
+            : paid && remaining > 0
               ? "Run this skim"
               : `Pay $${SKIM_PRICE_USD} — up to ${SKIMS_PER_PAYMENT} documents`}
         </button>
         <p className="text-xs text-[#6b6258]">
-          {paid
-            ? `Payment received. This $${SKIM_PRICE_USD} covers up to ${SKIMS_PER_PAYMENT} skims. Not legal advice.`
-            : `Stripe Checkout. $${SKIM_PRICE_USD} USD. This payment covers up to ${SKIMS_PER_PAYMENT} documents. Not legal advice.`}
+          {paid && remaining > 0
+            ? `Payment received. ${remaining} of ${SKIMS_PER_PAYMENT} left. Not legal advice.`
+            : paid
+              ? `This $${SKIM_PRICE_USD} already covered ${SKIMS_PER_PAYMENT} skims. Pay again for another document.`
+              : `Stripe Checkout. $${SKIM_PRICE_USD} USD. This payment covers up to ${SKIMS_PER_PAYMENT} documents. Not legal advice.`}
         </p>
       </form>
 

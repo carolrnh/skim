@@ -1,5 +1,8 @@
 import { NextRequest, NextResponse } from "next/server";
-import { consumePaidSession } from "../../../lib/stripe";
+import { SKIM_PRICE_USD, SKIMS_PER_PAYMENT } from "../../../lib/site";
+import { consumePaidSession, readPaidSession } from "../../../lib/stripe";
+
+export const maxDuration = 60;
 
 const MODEL = "grok-4.5";
 const MAX_CHARS = 20_000;
@@ -37,9 +40,17 @@ export async function POST(req: NextRequest) {
   }
 
   const sessionId = typeof body.sessionId === "string" ? body.sessionId.trim() : "";
-  const paid = await consumePaidSession(sessionId);
+  const paid = await readPaidSession(sessionId);
   if (!paid.ok) {
     return NextResponse.json({ error: paid.error }, { status: paid.status });
+  }
+  if (paid.remaining <= 0) {
+    return NextResponse.json(
+      {
+        error: `This $${SKIM_PRICE_USD} already covered ${SKIMS_PER_PAYMENT} skims. Pay again for another document.`,
+      },
+      { status: 402 }
+    );
   }
 
   const system = `You skim contracts, leases, contractor quotes, and terms of service for a regular person.
@@ -89,7 +100,17 @@ Rules:
     );
   }
 
-  return NextResponse.json({ flags, reply, model: MODEL });
+  const consumed = await consumePaidSession(sessionId);
+  if (!consumed.ok) {
+    console.error("[skim] report delivered but consume failed", consumed.error);
+  }
+
+  return NextResponse.json({
+    flags,
+    reply,
+    model: MODEL,
+    remaining: consumed.ok ? consumed.remaining : Math.max(0, paid.remaining - 1),
+  });
 }
 
 function parseCheck(raw: string): { flags: Flag[]; reply: string } {

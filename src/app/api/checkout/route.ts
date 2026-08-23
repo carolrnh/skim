@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import { getStripe, publicOrigin, SKIM_PRICE_CENTS, SKIMS_PER_PAYMENT } from "../../../lib/stripe";
+import { getStripe, publicOrigin, readPaidSession, SKIM_PRICE_CENTS, SKIMS_PER_PAYMENT } from "../../../lib/stripe";
 
 export async function POST(req: NextRequest) {
   try {
@@ -48,15 +48,14 @@ export async function POST(req: NextRequest) {
 
 export async function GET(req: NextRequest) {
   const id = req.nextUrl.searchParams.get("session_id") || "";
-  if (!id.startsWith("cs_")) {
+  const state = await readPaidSession(id);
+  if (!state.ok) {
     return NextResponse.json({ paid: false });
   }
-  try {
-    const stripe = getStripe();
-    const session = await stripe.checkout.sessions.retrieve(id);
-    const paid = session.payment_status === "paid" && session.amount_total === SKIM_PRICE_CENTS;
-    return NextResponse.json({ paid, id: session.id });
-  } catch {
-    return NextResponse.json({ paid: false });
-  }
+  return NextResponse.json({
+    paid: true,
+    id: state.id,
+    used: state.used,
+    remaining: state.remaining,
+  });
 }
