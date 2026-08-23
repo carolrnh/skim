@@ -2,6 +2,8 @@
 
 Upload a PDF or paste a lease, contractor quote, or ToS. Get **5 red flags**, a **rewrite** of each, and a **reply to send back**. **$9 per check.**
 
+Live: **https://askskim.com**. Old host `skim.forgeprod.com` redirects there.
+
 This is a new product. It is **not** Forge. No social posts, no 5-platform drafts.
 
 ## Why it can make money

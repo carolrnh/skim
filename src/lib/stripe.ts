@@ -109,5 +109,5 @@ export function publicOrigin(req: { headers: Headers }): string {
     .replace(/^["']|["']$/g, "")
     .replace(/\/$/, "");
   if (/^https?:\/\/[a-z0-9.-]+/i.test(fromEnv)) return fromEnv;
-  return "https://skim-nine.vercel.app";
+  return "https://askskim.com";
 }
