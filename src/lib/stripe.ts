@@ -1,7 +1,8 @@
 import Stripe from "stripe";
+import { SKIM_PRICE_USD, SKIMS_PER_PAYMENT } from "./site";
 
-export const SKIM_PRICE_CENTS = 900;
-export const SKIMS_PER_PAYMENT = 3;
+export { SKIMS_PER_PAYMENT };
+export const SKIM_PRICE_CENTS = SKIM_PRICE_USD * 100;
 
 export function getStripe(): Stripe {
   const key = process.env.STRIPE_SECRET_KEY;
@@ -15,7 +16,11 @@ export async function consumePaidSession(
   sessionId: string
 ): Promise<{ ok: true } | { ok: false; error: string; status: number }> {
   if (!sessionId.startsWith("cs_")) {
-    return { ok: false, error: "Pay $9 first to run a skim.", status: 402 };
+    return {
+      ok: false,
+      error: `Pay $${SKIM_PRICE_USD} first to run a skim.`,
+      status: 402,
+    };
   }
   try {
     const stripe = getStripe();
@@ -30,7 +35,7 @@ export async function consumePaidSession(
     if (!Number.isFinite(used) || used >= SKIMS_PER_PAYMENT) {
       return {
         ok: false,
-        error: "This $9 already covered 3 skims. Pay again for another document.",
+        error: `This $${SKIM_PRICE_USD} already covered ${SKIMS_PER_PAYMENT} skims. Pay again for another document.`,
         status: 402,
       };
     }

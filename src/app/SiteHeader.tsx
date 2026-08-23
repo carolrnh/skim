@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { SKIM_PRICE_USD } from "../lib/site";
 
 export default function SiteHeader() {
   return (
@@ -15,7 +16,7 @@ export default function SiteHeader() {
             Sample
           </Link>
           <Link href="/#check" className="text-[#b42318]">
-            $9 check
+            ${SKIM_PRICE_USD} check
           </Link>
         </nav>
       </div>

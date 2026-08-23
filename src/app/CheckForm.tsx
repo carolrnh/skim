@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { SKIM_PRICE_USD, SKIMS_PER_PAYMENT } from "../lib/site";
 import FlagReport, { type Flag } from "./FlagReport";
 
 const DRAFT_KEY = "skim-draft";
@@ -29,7 +30,7 @@ export default function CheckForm() {
       .then((r) => r.json())
       .then((d) => {
         if (!d.paid) {
-          setError("Payment not found. Pay $9 to skim.");
+          setError(`Payment not found. Pay $${SKIM_PRICE_USD} to skim.`);
           return;
         }
         setPaid(true);
@@ -165,12 +166,12 @@ export default function CheckForm() {
               : "Sending you to Stripe…"
             : paid
               ? "Run this skim"
-              : "Pay $9 — flags, rewrites, and a reply"}
+              : `Pay $${SKIM_PRICE_USD} — up to ${SKIMS_PER_PAYMENT} documents`}
         </button>
         <p className="text-xs text-[#6b6258]">
           {paid
-            ? "Payment received. This $9 covers up to 3 skims. Not legal advice."
-            : "Stripe Checkout. $9 USD. This payment covers up to 3 documents. Not legal advice."}
+            ? `Payment received. This $${SKIM_PRICE_USD} covers up to ${SKIMS_PER_PAYMENT} skims. Not legal advice.`
+            : `Stripe Checkout. $${SKIM_PRICE_USD} USD. This payment covers up to ${SKIMS_PER_PAYMENT} documents. Not legal advice.`}
         </p>
       </form>
 

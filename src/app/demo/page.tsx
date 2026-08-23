@@ -1,4 +1,4 @@
-import { SITE_HOST } from "../../lib/site";
+import { SITE_HOST, SKIM_PRICE_USD, SKIMS_PER_PAYMENT } from "../../lib/site";
 import FlagReport, { type Flag } from "../FlagReport";
 
 const DEMO_FLAGS: Flag[] = [
@@ -58,7 +58,8 @@ export default function DemoPage() {
     <main className="mx-auto flex w-full max-w-2xl flex-1 flex-col px-5 py-14">
       <p className="mb-6 text-sm font-bold text-[#6b6258]">
         Sample report — no charge. This is the page chat does not hand you
-        unless you negotiate with it. Real skims are $9 at{" "}
+        unless you negotiate with it. Real skims are ${SKIM_PRICE_USD} for up
+        to {SKIMS_PER_PAYMENT} documents at{" "}
         <a href="/" className="text-[#b42318] underline">
           {SITE_HOST}
         </a>

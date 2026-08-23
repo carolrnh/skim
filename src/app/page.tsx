@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { SKIM_PRICE_USD, SKIMS_PER_PAYMENT } from "../lib/site";
 import CheckForm from "./CheckForm";
 
 export default function Home() {
@@ -26,7 +27,8 @@ export default function Home() {
         the text. No prompt. No account.
       </p>
       <p className="mt-2 text-sm text-[#6b6258]">
-        $9 per check. Not legal advice.{" "}
+        ${SKIM_PRICE_USD}. Up to {SKIMS_PER_PAYMENT} documents. Not legal
+        advice.{" "}
         <Link href="/demo" className="font-bold text-[#b42318] underline">
           See a sample
         </Link>

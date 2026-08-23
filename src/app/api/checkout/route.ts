@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import { getStripe, publicOrigin, SKIM_PRICE_CENTS } from "../../../lib/stripe";
+import { getStripe, publicOrigin, SKIM_PRICE_CENTS, SKIMS_PER_PAYMENT } from "../../../lib/stripe";
 
 export async function POST(req: NextRequest) {
   try {
@@ -22,8 +22,9 @@ export async function POST(req: NextRequest) {
             currency: "usd",
             unit_amount: SKIM_PRICE_CENTS,
             product_data: {
-              name: "Skim — 5 red flags",
-              description: "One document check. Not legal advice.",
+              name: `Skim — up to ${SKIMS_PER_PAYMENT} documents`,
+              description:
+                "Five red flags, a rewrite of each, and a reply. Not legal advice.",
             },
           },
         },

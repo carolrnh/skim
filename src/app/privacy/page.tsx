@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { SITE_HOST } from "../../lib/site";
+import { SITE_HOST, SKIM_PRICE_USD, SKIMS_PER_PAYMENT } from "../../lib/site";
 
 export const metadata: Metadata = {
   title: "Privacy — Skim",
@@ -24,7 +24,8 @@ export default function PrivacyPage() {
         </p>
         <p>
           Stripe sees your card and billing email. We see a Checkout session id
-          and how many of the 3 skims on that $9 have been used.
+          and how many of the {SKIMS_PER_PAYMENT} skims on that ${SKIM_PRICE_USD} have
+          been used.
         </p>
         <p>
           We do not sell your document or your payment data. Payment questions:

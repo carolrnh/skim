@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { SITE_HOST } from "../../lib/site";
+import { SITE_HOST, SKIM_PRICE_USD, SKIMS_PER_PAYMENT } from "../../lib/site";
 
 export const metadata: Metadata = {
   title: "Terms — Skim",
@@ -13,7 +13,8 @@ export default function TermsPage() {
 
       <div className="mt-8 space-y-6 text-[15px] leading-relaxed text-[#3d342c]">
         <p>
-          Skim is a $9 document check. You get up to 3 skims per payment: five
+          Skim is a ${SKIM_PRICE_USD} document check. You get up to{" "}
+          {SKIMS_PER_PAYMENT} skims per payment: five
           red flags, a plain-English rewrite of each, and a reply you can send.
           It is not legal advice and not a lawyer. Do not treat the output as
           counsel.
