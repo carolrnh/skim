@@ -8,6 +8,7 @@ type Flag = {
   title: string;
   why: string;
   quote: string;
+  rewrite: string;
   severity: "high" | "medium" | "low";
 };
 
@@ -42,12 +43,14 @@ export async function POST(req: NextRequest) {
   }
 
   const system = `You skim contracts, leases, contractor quotes, and terms of service for a regular person.
-Return ONLY valid JSON: {"flags":[{"title":"","why":"","quote":"","severity":"high|medium|low"}]}
+Return ONLY valid JSON: {"flags":[{"title":"","why":"","quote":"","rewrite":"","severity":"high|medium|low"}],"reply":""}
 Rules:
 - Exactly 5 flags, worst first.
 - title: 6 words max, no legalese.
 - why: one or two sentences in plain English. What they could lose.
 - quote: a short span copied from the document, or "" if you must paraphrase.
+- rewrite: one or two sentences they can ask the other side to put in instead. Plain English. A replacement clause, not a lecture.
+- reply: one short first-person message they can paste to the other party. Polite and firm. Names the 2–3 worst issues and asks for those rewrites. No threats. No "I will sue." 80–140 words. Not a lawyer letter.
 - Not legal advice. No invented clauses. If the doc is thin, say so in why.
 - Never mention being an AI.`;
 
@@ -78,7 +81,7 @@ Rules:
 
   const data = await res.json();
   const raw = data?.choices?.[0]?.message?.content || "";
-  const flags = parseFlags(raw);
+  const { flags, reply } = parseCheck(raw);
   if (flags.length === 0) {
     return NextResponse.json(
       { error: "Could not read flags from this document. Try a longer paste." },
@@ -86,29 +89,40 @@ Rules:
     );
   }
 
-  return NextResponse.json({ flags, model: MODEL });
+  return NextResponse.json({ flags, reply, model: MODEL });
 }
 
-function parseFlags(raw: string): Flag[] {
+function parseCheck(raw: string): { flags: Flag[]; reply: string } {
   const start = raw.indexOf("{");
   const end = raw.lastIndexOf("}");
-  if (start < 0 || end <= start) return [];
+  if (start < 0 || end <= start) return { flags: [], reply: "" };
   try {
     const parsed = JSON.parse(raw.slice(start, end + 1));
     const list = Array.isArray(parsed.flags) ? parsed.flags : [];
-    return list
-      .map((f: { title?: string; why?: string; quote?: string; severity?: string }) => ({
-        title: String(f.title || "").slice(0, 80),
-        why: String(f.why || "").slice(0, 400),
-        quote: String(f.quote || "").slice(0, 240),
-        severity:
-          f.severity === "high" || f.severity === "medium" || f.severity === "low"
-            ? f.severity
-            : "medium",
-      }))
+    const flags = list
+      .map(
+        (f: {
+          title?: string;
+          why?: string;
+          quote?: string;
+          rewrite?: string;
+          severity?: string;
+        }) => ({
+          title: String(f.title || "").slice(0, 80),
+          why: String(f.why || "").slice(0, 400),
+          quote: String(f.quote || "").slice(0, 240),
+          rewrite: String(f.rewrite || "").slice(0, 400),
+          severity:
+            f.severity === "high" || f.severity === "medium" || f.severity === "low"
+              ? f.severity
+              : "medium",
+        })
+      )
       .filter((f: Flag) => f.title && f.why)
       .slice(0, 5);
+    const reply = String(parsed.reply || "").slice(0, 1200).trim();
+    return { flags, reply };
   } catch {
-    return [];
+    return { flags: [], reply: "" };
   }
 }

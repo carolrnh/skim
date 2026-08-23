@@ -13,9 +13,9 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Skim — 5 red flags in any contract",
+  title: "Skim — flags, a rewrite, and a reply",
   description:
-    "Paste a lease, contractor quote, or terms. Get five plain-English red flags. $9 per check. Not legal advice.",
+    "Upload a PDF or paste a lease, contractor quote, or terms. Get five red flags, a rewrite of each, and a message to send back. $9 per check. Not legal advice.",
 };
 
 export default function RootLayout({ children }: LayoutProps<"/">) {

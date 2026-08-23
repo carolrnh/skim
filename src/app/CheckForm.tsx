@@ -8,10 +8,13 @@ const DRAFT_KEY = "skim-draft";
 export default function CheckForm() {
   const [text, setText] = useState("");
   const [flags, setFlags] = useState<Flag[] | null>(null);
+  const [reply, setReply] = useState("");
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
   const [sessionId, setSessionId] = useState("");
   const [paid, setPaid] = useState(false);
+  const [reading, setReading] = useState(false);
+  const [fileName, setFileName] = useState("");
 
   useEffect(() => {
     const params = new URLSearchParams(window.location.search);
@@ -39,6 +42,7 @@ export default function CheckForm() {
   async function runCheck(doc: string, sid: string) {
     setError("");
     setFlags(null);
+    setReply("");
     setLoading(true);
     try {
       const res = await fetch("/api/check", {
@@ -52,6 +56,7 @@ export default function CheckForm() {
         return;
       }
       setFlags(data.flags || []);
+      setReply(typeof data.reply === "string" ? data.reply : "");
       window.setTimeout(() => {
         document.getElementById("skim-report")?.scrollIntoView({ behavior: "smooth", block: "start" });
       }, 50);
@@ -59,6 +64,37 @@ export default function CheckForm() {
       setError("Network error. Try again.");
     } finally {
       setLoading(false);
+    }
+  }
+
+  async function onPdf(e: React.ChangeEvent<HTMLInputElement>) {
+    const file = e.target.files?.[0];
+    e.target.value = "";
+    if (!file) return;
+    setError("");
+    setReading(true);
+    try {
+      const body = new FormData();
+      body.append("file", file);
+      const res = await fetch("/api/extract", { method: "POST", body });
+      const data = await res.json();
+      if (!res.ok) {
+        setFileName("");
+        setError(data.error || "Could not read that PDF.");
+        return;
+      }
+      const next = typeof data.text === "string" ? data.text : "";
+      setText(next);
+      setFileName(file.name);
+      sessionStorage.setItem(DRAFT_KEY, next);
+      if (data.truncated) {
+        setError("Read the first part of this PDF (20,000 character cap).");
+      }
+    } catch {
+      setFileName("");
+      setError("Could not read that PDF.");
+    } finally {
+      setReading(false);
     }
   }
 
@@ -95,16 +131,32 @@ export default function CheckForm() {
   return (
     <div>
       <form onSubmit={onSubmit} className="space-y-4">
+        <label className="flex cursor-pointer items-center justify-between gap-3 rounded-xl border border-dashed border-[#d9cfc0] bg-white px-4 py-3 text-sm font-bold text-[#1a1410]">
+          <span>{reading ? "Reading PDF…" : "Upload a PDF"}</span>
+          <span className="truncate text-xs font-semibold text-[#6b6258]">
+            {fileName || "or paste below"}
+          </span>
+          <input
+            type="file"
+            accept="application/pdf,.pdf"
+            onChange={(e) => void onPdf(e)}
+            disabled={loading || reading}
+            className="sr-only"
+          />
+        </label>
         <textarea
           value={text}
-          onChange={(e) => setText(e.target.value)}
+          onChange={(e) => {
+            setText(e.target.value);
+            if (fileName) setFileName("");
+          }}
           placeholder="Paste a lease, contractor quote, gym contract, or terms…"
           rows={10}
           className="w-full rounded-xl border border-[#d9cfc0] bg-white px-4 py-3 text-[15px] leading-relaxed text-[#1a1410] outline-none focus:border-[#b42318]"
         />
         <button
           type="submit"
-          disabled={loading}
+          disabled={loading || reading}
           className="rounded-full bg-[#b42318] px-6 py-3 text-sm font-bold text-white disabled:opacity-60"
         >
           {loading
@@ -113,7 +165,7 @@ export default function CheckForm() {
               : "Sending you to Stripe…"
             : paid
               ? "Run this skim"
-              : "Pay $9 — then see 5 flags"}
+              : "Pay $9 — flags, rewrites, and a reply"}
         </button>
         <p className="text-xs text-[#6b6258]">
           {paid
@@ -128,7 +180,14 @@ export default function CheckForm() {
 
       {flags && flags.length > 0 ? (
         <div className="mt-10">
-          <FlagReport flags={flags} onAgain={() => setFlags(null)} />
+          <FlagReport
+            flags={flags}
+            reply={reply}
+            onAgain={() => {
+              setFlags(null);
+              setReply("");
+            }}
+          />
         </div>
       ) : null}
     </div>

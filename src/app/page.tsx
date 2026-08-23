@@ -1,3 +1,4 @@
+import Link from "next/link";
 import CheckForm from "./CheckForm";
 
 export default function Home() {
@@ -12,13 +13,19 @@ export default function Home() {
       <h1 className="mt-8 text-4xl font-black leading-tight tracking-tight">
         Five red flags.
         <br />
-        Then you decide.
+        A rewrite. A reply.
       </h1>
       <p className="mt-4 text-lg leading-relaxed text-[#3d342c]">
-        Paste a lease, contractor quote, or terms of service. Skim pulls the
-        clauses that can cost you money — in English, not lawyer.
+        Upload a PDF or paste a lease, contractor quote, or terms. Skim pulls
+        the clauses that can cost you money, a plain-English rewrite of each,
+        and a message you can send back.
       </p>
-      <p className="mt-2 text-sm text-[#6b6258]">$9 per check. No account. Not legal advice.</p>
+      <p className="mt-2 text-sm text-[#6b6258]">
+        $9 per check. No account. Not legal advice.{" "}
+        <Link href="/demo" className="font-bold text-[#b42318] underline">
+          See a sample
+        </Link>
+      </p>
 
       <div className="mt-10">
         <CheckForm />

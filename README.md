@@ -1,6 +1,6 @@
 # Skim
 
-Paste a lease, contractor quote, or ToS. Get **5 red flags** in plain English. **$9 per check.**
+Upload a PDF or paste a lease, contractor quote, or ToS. Get **5 red flags**, a **rewrite** of each, and a **reply to send back**. **$9 per check.**
 
 This is a new product. It is **not** Forge. No social posts, no 5-platform drafts.
 
