@@ -57,7 +57,8 @@ export default function DemoPage() {
   return (
     <main className="mx-auto flex w-full max-w-2xl flex-1 flex-col px-5 py-14">
       <p className="mb-6 text-sm font-bold text-[#6b6258]">
-        Sample report — no charge. Real skims are $9 at{" "}
+        Sample report — no charge. This is the page chat does not hand you
+        unless you negotiate with it. Real skims are $9 at{" "}
         <a href="/" className="text-[#b42318] underline">
           {SITE_HOST}
         </a>

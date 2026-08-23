@@ -19,7 +19,7 @@ export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
   title: "Skim — flags, a rewrite, and a reply",
   description:
-    "Upload a PDF or paste a lease, contractor quote, or terms. Get five red flags, a rewrite of each, and a message to send back. $9 per check. Not legal advice.",
+    "Chat will discuss your contract if you keep prompting. Skim is the finished report: five red flags, a rewrite of each, and a reply to paste back. $9. No account. Not legal advice.",
 };
 
 export default function RootLayout({ children }: LayoutProps<"/">) {

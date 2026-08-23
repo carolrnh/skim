@@ -6,7 +6,7 @@ This is a new product. It is **not** Forge. No social posts, no 5-platform draft
 
 ## Why it can make money
 
-People already pay lawyers and “just sign.” A $9 skim is an impulse buy the moment they have a PDF in front of them. TikTok: screenshot a lease, overlay 3 flags.
+People already pay lawyers and “just sign.” Chat is free but you still have to prompt it into flags, a rewrite, and a sendable reply. Skim is that finished report. $9 is an impulse buy the moment they have a PDF. TikTok: screenshot a lease, overlay 3 flags.
 
 ## Stack
 

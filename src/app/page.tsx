@@ -16,12 +16,17 @@ export default function Home() {
         A rewrite. A reply.
       </h1>
       <p className="mt-4 text-lg leading-relaxed text-[#3d342c]">
-        Upload a PDF or paste a lease, contractor quote, or terms. Skim pulls
-        the clauses that can cost you money, a plain-English rewrite of each,
-        and a message you can send back.
+        Any chat will talk about your lease if you keep prompting. Then you
+        still have to ask for the flags, then a rewrite, then something you can
+        actually send — and copy it out before the thread wanders.
+      </p>
+      <p className="mt-4 text-lg leading-relaxed text-[#3d342c]">
+        Skim is that report, once. Five clauses that can cost you money. A
+        replacement for each. A reply ready to paste. Upload the PDF or paste
+        the text. No prompt. No account.
       </p>
       <p className="mt-2 text-sm text-[#6b6258]">
-        $9 per check. No account. Not legal advice.{" "}
+        $9 per check. Not legal advice.{" "}
         <Link href="/demo" className="font-bold text-[#b42318] underline">
           See a sample
         </Link>
