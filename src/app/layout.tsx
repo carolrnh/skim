@@ -1,6 +1,13 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import { SITE_URL } from "../lib/site";
+import {
+  HOME_DESCRIPTION,
+  HOME_TITLE,
+  pageMetadata,
+  siteGraphJsonLd,
+} from "../lib/seo";
+import JsonLd from "./JsonLd";
 import SiteFooter from "./SiteFooter";
 import SiteHeader from "./SiteHeader";
 import "./globals.css";
@@ -15,27 +22,13 @@ const geistMono = Geist_Mono({
   subsets: ["latin"],
 });
 
-const TITLE = "Skim — flags, a rewrite, and a reply";
-const DESCRIPTION =
-  "Chat will discuss your contract if you keep prompting. Skim is the finished report: five red flags, a rewrite of each, and a reply to paste back. $9. No account. Not legal advice.";
-
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
-  title: TITLE,
-  description: DESCRIPTION,
-  openGraph: {
-    title: TITLE,
-    description: DESCRIPTION,
-    url: SITE_URL,
-    siteName: "Skim",
-    type: "website",
-    locale: "en_US",
-  },
-  twitter: {
-    card: "summary_large_image",
-    title: TITLE,
-    description: DESCRIPTION,
-  },
+  ...pageMetadata({
+    path: "/",
+    title: HOME_TITLE,
+    description: HOME_DESCRIPTION,
+  }),
 };
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
@@ -45,6 +38,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
       className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
     >
       <body className="flex min-h-full flex-col">
+        <JsonLd data={siteGraphJsonLd()} />
         <SiteHeader />
         {children}
         <SiteFooter />

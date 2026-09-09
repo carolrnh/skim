@@ -1,9 +1,15 @@
-import type { Metadata } from "next";
+import {
+  pageMetadata,
+  PRIVACY_DESCRIPTION,
+  PRIVACY_TITLE,
+} from "../../lib/seo";
 import { SITE_HOST, SKIM_PRICE_USD, SKIMS_PER_PAYMENT } from "../../lib/site";
 
-export const metadata: Metadata = {
-  title: "Privacy — Skim",
-};
+export const metadata = pageMetadata({
+  path: "/privacy",
+  title: PRIVACY_TITLE,
+  description: PRIVACY_DESCRIPTION,
+});
 
 export default function PrivacyPage() {
   return (
