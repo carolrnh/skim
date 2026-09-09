@@ -170,16 +170,23 @@ export default function CheckForm() {
             className="sr-only"
           />
         </label>
-        <textarea
-          value={text}
-          onChange={(e) => {
-            setText(e.target.value);
-            if (fileName) setFileName("");
-          }}
-          placeholder="Paste a lease, contractor quote, gym contract, or terms…"
-          rows={10}
-          className="w-full rounded-xl border border-[#d9cfc0] bg-white px-4 py-3 text-[15px] leading-relaxed text-[#1a1410] outline-none focus:border-[#b42318]"
-        />
+        <div className="space-y-2">
+          <label htmlFor="skim-document" className="block text-sm font-bold text-[#1a1410]">
+            Document to skim
+          </label>
+          <textarea
+            id="skim-document"
+            name="document"
+            value={text}
+            onChange={(e) => {
+              setText(e.target.value);
+              if (fileName) setFileName("");
+            }}
+            placeholder="Paste a lease, contractor quote, gym contract, or terms…"
+            rows={10}
+            className="w-full rounded-xl border border-[#d9cfc0] bg-white px-4 py-3 text-[15px] leading-relaxed text-[#1a1410] outline-none focus:border-[#b42318]"
+          />
+        </div>
         <button
           type="submit"
           disabled={loading || reading}

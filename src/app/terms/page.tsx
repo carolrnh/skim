@@ -1,9 +1,11 @@
-import type { Metadata } from "next";
+import { pageMetadata, TERMS_DESCRIPTION, TERMS_TITLE } from "../../lib/seo";
 import { SITE_HOST, SKIM_PRICE_USD, SKIMS_PER_PAYMENT } from "../../lib/site";
 
-export const metadata: Metadata = {
-  title: "Terms — Skim",
-};
+export const metadata = pageMetadata({
+  path: "/terms",
+  title: TERMS_TITLE,
+  description: TERMS_DESCRIPTION,
+});
 
 export default function TermsPage() {
   return (

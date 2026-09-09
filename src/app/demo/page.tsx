@@ -1,5 +1,17 @@
+import Link from "next/link";
+import {
+  DEMO_DESCRIPTION,
+  DEMO_TITLE,
+  pageMetadata,
+} from "../../lib/seo";
 import { SITE_HOST, SKIM_PRICE_USD, SKIMS_PER_PAYMENT } from "../../lib/site";
 import FlagReport, { type Flag } from "../FlagReport";
+
+export const metadata = pageMetadata({
+  path: "/demo",
+  title: DEMO_TITLE,
+  description: DEMO_DESCRIPTION,
+});
 
 const DEMO_FLAGS: Flag[] = [
   {
@@ -56,13 +68,15 @@ If you can send a revised version with those points, I’m ready to move.`;
 export default function DemoPage() {
   return (
     <main className="mx-auto flex w-full max-w-2xl flex-1 flex-col px-5 py-14">
-      <p className="mb-6 text-sm font-bold text-[#6b6258]">
-        Sample report — no charge. This is the page chat does not hand you
-        unless you negotiate with it. Real skims are ${SKIM_PRICE_USD} for up
-        to {SKIMS_PER_PAYMENT} documents at{" "}
-        <a href="/" className="text-[#b42318] underline">
+      <h1 className="text-4xl font-black tracking-tight">Sample report</h1>
+      <p className="mt-3 mb-8 text-sm font-bold text-[#6b6258]">
+        No charge. This is the page chat does not hand you unless you negotiate
+        with it. Real skims are ${SKIM_PRICE_USD} for up to {SKIMS_PER_PAYMENT}{" "}
+        documents at{" "}
+        <Link href="/" className="text-[#b42318] underline">
           {SITE_HOST}
-        </a>
+        </Link>
+        . Not legal advice.
       </p>
       <FlagReport flags={DEMO_FLAGS} reply={DEMO_REPLY} />
     </main>
