@@ -1,5 +1,12 @@
 import Link from "next/link";
-import { checkOfferJsonLd, HOME_DESCRIPTION, HOME_TITLE, pageMetadata } from "../lib/seo";
+import {
+  checkOfferJsonLd,
+  faqPageJsonLd,
+  HOME_DESCRIPTION,
+  HOME_FAQ,
+  HOME_TITLE,
+  pageMetadata,
+} from "../lib/seo";
 import { SKIM_PRICE_USD, SKIMS_PER_PAYMENT } from "../lib/site";
 import CheckForm from "./CheckForm";
 import JsonLd from "./JsonLd";
@@ -11,10 +18,41 @@ export const metadata = pageMetadata({
   description: HOME_DESCRIPTION,
 });
 
+const SAMPLE_LINK_LABEL = "Open the sample on the site";
+
+function FaqAnswer({ answer }: { answer: string }) {
+  return (
+    <dd className="mt-1 space-y-2">
+      {answer.split("\n\n").map((paragraph) => {
+        const i = paragraph.indexOf(SAMPLE_LINK_LABEL);
+        return (
+          <p key={paragraph}>
+            {i === -1 ? (
+              paragraph
+            ) : (
+              <>
+                {paragraph.slice(0, i)}
+                <Link
+                  href="/demo"
+                  className="font-bold text-[#b42318] underline"
+                >
+                  {SAMPLE_LINK_LABEL}
+                </Link>
+                {paragraph.slice(i + SAMPLE_LINK_LABEL.length)}
+              </>
+            )}
+          </p>
+        );
+      })}
+    </dd>
+  );
+}
+
 export default function Home() {
   return (
     <main className="mx-auto flex w-full max-w-2xl flex-1 flex-col px-5 py-14">
       <JsonLd data={checkOfferJsonLd()} />
+      <JsonLd data={faqPageJsonLd()} />
       <SkimWordmark className="h-20 sm:h-24" priority />
       <h1 className="mt-8 text-4xl font-black leading-tight tracking-tight">
         Five red flags.
@@ -32,7 +70,7 @@ export default function Home() {
         the text. No prompt. No account.
       </p>
       <p className="mt-2 text-sm text-[#6b6258]">
-        ${SKIM_PRICE_USD}. Up to {SKIMS_PER_PAYMENT} documents. Not legal
+        ${SKIM_PRICE_USD} once. Up to {SKIMS_PER_PAYMENT} documents. Not legal
         advice.{" "}
         <Link href="/demo" className="font-bold text-[#b42318] underline">
           See a sample
@@ -44,6 +82,7 @@ export default function Home() {
       </div>
 
       <section
+        id="faq"
         aria-labelledby="faq-heading"
         className="mt-12 border-t border-[#d9cfc0] pt-8"
       >
@@ -51,30 +90,12 @@ export default function Home() {
           Before you pay
         </h2>
         <dl className="mt-4 space-y-4 text-[15px] leading-relaxed text-[#3d342c]">
-          <div>
-            <dt className="font-bold text-[#1a1410]">What do I get?</dt>
-            <dd className="mt-1">
-              Five red flags, a rewrite of each, and a reply you can paste. Not
-              legal advice.
-            </dd>
-          </div>
-          <div>
-            <dt className="font-bold text-[#1a1410]">Can I see a finished report first?</dt>
-            <dd className="mt-1">
-              Yes.{" "}
-              <Link href="/demo" className="font-bold text-[#b42318] underline">
-                Open the sample
-              </Link>{" "}
-              — a contractor-quote skim, no charge.
-            </dd>
-          </div>
-          <div>
-            <dt className="font-bold text-[#1a1410]">Do I need an account?</dt>
-            <dd className="mt-1">
-              No. Pay ${SKIM_PRICE_USD} once. That covers up to{" "}
-              {SKIMS_PER_PAYMENT} documents.
-            </dd>
-          </div>
+          {HOME_FAQ.map((item) => (
+            <div key={item.question}>
+              <dt className="font-bold text-[#1a1410]">{item.question}</dt>
+              <FaqAnswer answer={item.answer} />
+            </div>
+          ))}
         </dl>
       </section>
     </main>
