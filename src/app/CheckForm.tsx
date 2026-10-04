@@ -154,14 +154,22 @@ export default function CheckForm() {
     }
   }
 
+  const uploadLabel = reading
+    ? "Reading PDF…"
+    : paid && remaining > 0
+      ? "Upload your document"
+      : `Upload your document — $${SKIM_PRICE_USD}`;
+
   return (
     <div>
       <form onSubmit={onSubmit} className="space-y-4">
-        <label className="flex cursor-pointer items-center justify-between gap-3 rounded-xl border border-dashed border-[#d9cfc0] bg-white px-4 py-3 text-sm font-bold text-[#1a1410]">
-          <span>{reading ? "Reading PDF…" : "Upload a PDF"}</span>
-          <span className="truncate text-xs font-semibold text-[#6b6258]">
-            {fileName || "or paste below"}
-          </span>
+        <label className="flex cursor-pointer items-center justify-between gap-3 rounded-xl border border-[#d9cfc0] bg-white px-4 py-4 text-base font-bold text-[#1a1410]">
+          <span>{uploadLabel}</span>
+          {fileName ? (
+            <span className="max-w-[40%] truncate text-sm font-semibold text-[#3d342c]">
+              {fileName}
+            </span>
+          ) : null}
           <input
             type="file"
             accept="application/pdf,.pdf"
@@ -171,8 +179,30 @@ export default function CheckForm() {
           />
         </label>
         <div className="space-y-2">
-          <label htmlFor="skim-document" className="block text-sm font-bold text-[#1a1410]">
-            Document to skim
+          <button
+            type="submit"
+            disabled={loading || reading}
+            className="rounded-full bg-[#b42318] px-6 py-3 text-sm font-bold text-white disabled:opacity-60"
+          >
+            {loading
+              ? paid && remaining > 0
+                ? "Skimming…"
+                : "Sending you to Stripe…"
+              : paid && remaining > 0
+                ? "Run this skim"
+                : `Pay $${SKIM_PRICE_USD} — up to ${SKIMS_PER_PAYMENT} documents`}
+          </button>
+          <p className="text-sm leading-relaxed text-[#1a1410]">
+            {paid && remaining > 0
+              ? `Payment received. ${remaining} of ${SKIMS_PER_PAYMENT} left. Not legal advice.`
+              : paid
+                ? `This $${SKIM_PRICE_USD} already covered ${SKIMS_PER_PAYMENT} skims. Pay again for another document. Not legal advice.`
+                : `Stripe Checkout. $${SKIM_PRICE_USD} USD. This payment covers up to ${SKIMS_PER_PAYMENT} documents. Not legal advice.`}
+          </p>
+        </div>
+        <div className="space-y-2 border-t border-[#d9cfc0] pt-4">
+          <label htmlFor="skim-document" className="block text-sm font-semibold text-[#3d342c]">
+            Or paste the text
           </label>
           <textarea
             id="skim-document"
@@ -187,26 +217,6 @@ export default function CheckForm() {
             className="w-full rounded-xl border border-[#d9cfc0] bg-white px-4 py-3 text-[15px] leading-relaxed text-[#1a1410] outline-none focus:border-[#b42318]"
           />
         </div>
-        <button
-          type="submit"
-          disabled={loading || reading}
-          className="rounded-full bg-[#b42318] px-6 py-3 text-sm font-bold text-white disabled:opacity-60"
-        >
-          {loading
-            ? paid && remaining > 0
-              ? "Skimming…"
-              : "Sending you to Stripe…"
-            : paid && remaining > 0
-              ? "Run this skim"
-              : `Pay $${SKIM_PRICE_USD} — up to ${SKIMS_PER_PAYMENT} documents`}
-        </button>
-        <p className="text-xs text-[#6b6258]">
-          {paid && remaining > 0
-            ? `Payment received. ${remaining} of ${SKIMS_PER_PAYMENT} left. Not legal advice.`
-            : paid
-              ? `This $${SKIM_PRICE_USD} already covered ${SKIMS_PER_PAYMENT} skims. Pay again for another document.`
-              : `Stripe Checkout. $${SKIM_PRICE_USD} USD. This payment covers up to ${SKIMS_PER_PAYMENT} documents. Not legal advice.`}
-        </p>
       </form>
 
       {error ? (

@@ -59,7 +59,12 @@ export default function Home() {
         <br />
         A rewrite. A reply.
       </h1>
-      <p className="mt-4 text-lg leading-relaxed text-[#3d342c]">
+
+      <div id="check" className="mt-8">
+        <CheckForm />
+      </div>
+
+      <p className="mt-10 text-lg leading-relaxed text-[#3d342c]">
         Any chat will talk about your lease if you keep prompting. Then you
         still have to ask for the flags, then a rewrite, then something you can
         actually send — and copy it out before the thread wanders.
@@ -76,10 +81,6 @@ export default function Home() {
           See a sample
         </Link>
       </p>
-
-      <div id="check" className="mt-10">
-        <CheckForm />
-      </div>
 
       <section
         id="faq"
