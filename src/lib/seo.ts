@@ -39,7 +39,7 @@ export const DEMO_DESCRIPTION =
 
 export const PRIVACY_TITLE = "Privacy — Skim";
 export const PRIVACY_DESCRIPTION =
-  "Skim has no accounts. Uploaded text goes to xAI to build your report. Payment runs through Stripe. We do not keep a user database of your documents.";
+  "Skim has no accounts. A PDF is read for its text and is not saved. The document is sent to xAI only when a paid check runs. Payment runs through Stripe. We do not keep a database of your documents.";
 
 export const TERMS_TITLE = "Terms — Skim";
 export const TERMS_DESCRIPTION = `Skim is a $${SKIM_PRICE_USD} document check covering up to ${SKIMS_PER_PAYMENT} reports. Output is not legal advice. The service is provided as-is.`;
