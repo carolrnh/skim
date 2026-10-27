@@ -20,6 +20,23 @@ export default function SiteFooter() {
             Terms
           </Link>
         </nav>
+        <a
+          href="https://openhunts.com"
+          target="_blank"
+          rel="noopener"
+          title="OpenHunts Club"
+          className="mt-1 w-fit"
+        >
+          {/* Plain img keeps the OpenHunts CDN URL in the HTML. */}
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img
+            alt="OpenHunts Club Member"
+            height={105}
+            src="https://cdn.openhunts.com/badges/club.webp"
+            style={{ width: "195px", height: "auto" }}
+            width={486}
+          />
+        </a>
       </div>
     </footer>
   );
