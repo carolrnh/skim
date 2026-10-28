@@ -86,6 +86,21 @@ export default function SiteFooter() {
               style={{ height: "48px", width: "auto" }}
             />
           </a>
+          <a
+            href="https://thetoolsverse.com"
+            target="_blank"
+            rel="noopener"
+            className="mt-1"
+          >
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img
+              alt="Featured on TheToolsVerse — AI Tools Directory"
+              height={48}
+              src="https://thetoolsverse.com/badges/toolsverse-light.png"
+              style={{ height: "48px", width: "auto" }}
+              width={180}
+            />
+          </a>
         </div>
       </div>
     </footer>
