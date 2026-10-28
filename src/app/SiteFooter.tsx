@@ -101,6 +101,36 @@ export default function SiteFooter() {
               width={180}
             />
           </a>
+          <a
+            href="https://SaaS.fyi/tools/skim.html"
+            target="_blank"
+            rel="noopener"
+            className="mt-1"
+          >
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img
+              alt="Featured on SaaS.fyi"
+              height={48}
+              src="https://SaaS.fyi/assets/brand/badge.svg"
+              style={{ height: "48px", width: "auto" }}
+              width={121}
+            />
+          </a>
+          <a
+            href="https://neeed.directory/products/skim?utm_source=skim"
+            target="_blank"
+            rel="noopener"
+            className="mt-1"
+          >
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img
+              alt="Featured on neeed.directory"
+              height={48}
+              src="https://neeed.directory/badges/neeed-badge-light.svg"
+              style={{ height: "48px", width: "auto" }}
+              width={152}
+            />
+          </a>
         </div>
       </div>
     </footer>
