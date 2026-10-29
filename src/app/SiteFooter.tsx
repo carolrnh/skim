@@ -131,6 +131,20 @@ export default function SiteFooter() {
               width={152}
             />
           </a>
+          <a
+            href="https://abacklaunch.com/launch/skim?ref=badge"
+            target="_blank"
+            rel="noopener"
+            className="mt-1"
+          >
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img
+              alt="Listed on Aback Launch"
+              height={32}
+              src="https://abacklaunch.com/badges/listed-on-light.svg"
+              width={150}
+            />
+          </a>
         </div>
       </div>
     </footer>
