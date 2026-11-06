@@ -145,6 +145,30 @@ export default function SiteFooter() {
               width={150}
             />
           </a>
+          <a
+            href="https://www.codehype.ai/product/skim?utm_source=codehype_badge"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="mt-1"
+          >
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img
+              alt="Featured on CodeHype"
+              height={65}
+              src="https://www.codehype.ai/badges/skim.svg?variant=find-us&v=20"
+              style={{
+                display: "inline-block",
+                border: 0,
+                width: "100%",
+                maxWidth: "180px",
+                height: "auto",
+                maxHeight: "65px",
+              }}
+              width={180}
+              loading="lazy"
+              decoding="async"
+            />
+          </a>
         </div>
       </div>
     </footer>
