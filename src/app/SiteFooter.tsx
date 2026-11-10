@@ -169,6 +169,21 @@ export default function SiteFooter() {
               decoding="async"
             />
           </a>
+          <a
+            href="https://huzzler.so/products/RsZ4p6WNPS/askskim-com?utm_source=huzzler_product_website&utm_medium=badge&utm_campaign=free_listing"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="mt-1"
+          >
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img
+              alt="Huzzler Embed Badge"
+              height={55}
+              src="https://huzzler.so/assets/images/embeddable-badges/featured-light.png"
+              style={{ height: "48px", width: "auto" }}
+              width={159}
+            />
+          </a>
         </div>
       </div>
     </footer>
