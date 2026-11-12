@@ -184,6 +184,20 @@ export default function SiteFooter() {
               width={159}
             />
           </a>
+          <a
+            href="https://www.launchvault.dev"
+            target="_blank"
+            rel="noopener"
+            title="Feature On Launch Vault"
+            className="mt-1"
+          >
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img
+              alt="Feature On Launch Vault"
+              src="https://www.launchvault.dev/images/badges/launch-valut-badge.svg"
+              style={{ height: "48px", width: "auto" }}
+            />
+          </a>
         </div>
       </div>
     </footer>
