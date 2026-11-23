@@ -38,6 +38,21 @@ export default function SiteFooter() {
               width={486}
             />
           </a>
+          <a
+            href="https://stremit.io"
+            target="_blank"
+            rel="noopener"
+            className="mt-1 w-fit"
+          >
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img
+              alt="Featured on Stremit"
+              height={179}
+              src="https://stremit.io/static/img/badges/featured-on-stremit.png"
+              style={{ height: "48px", width: "auto" }}
+              width={480}
+            />
+          </a>
           <a href="https://twelve.tools" target="_blank" className="mt-1">
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img
